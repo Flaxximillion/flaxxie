@@ -36,7 +36,6 @@ function getGiphy(search, limit){
 }
 
 function displayGifs(gifData){
-    console.log(gifData);
     gifData.forEach(function(gif){
         $(gifHolder).append($("<div>")
             .append($("<img>")
@@ -47,18 +46,24 @@ function displayGifs(gifData){
                     "data-switch": gif.images["fixed_height_downsampled"].url
                 }),
                 $("<div>").text(gif.rating)));
-    })
+    });
 }
 
 $(document).ready(function(){
     genButtons(categories);
     $("#resetButton").click(e=>{
         $(gifHolder).children().remove();
-    })
+    });
 });
 
 $(document).on("click", ".gif", function(){
     let switchState = $(this).attr("src");
     this.src = $(this).attr("data-switch");
     $(this).attr("data-switch", switchState);
+});
+
+$(document).on("click", "#submitButton", function(){
+    $(gifHolder).children().remove();
+    let userInput = $("#userInput").val().trim();
+    getGiphy(userInput, 10);
 });
